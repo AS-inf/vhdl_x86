@@ -1,44 +1,52 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 02/28/2021 03:58:40 PM
--- Design Name: 
--- Module Name: SIM_main - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity SIM_main is
-port ( signal clk : inout std_logic := '0');
 end SIM_main;
 
 architecture Behavioral of SIM_main is
 
+COMPONENT aW_aR_REGISTER_8bit
+PORT (  DATA_IN : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+        DATA_OUT : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+        INSTR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+        CLK : IN STD_LOGIC );
+END COMPONENT;
+
+SIGNAL INPUT : STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL OUTPUT : STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL ADR_SRC : STD_LOGIC_VECTOR(15 DOWNTO 0);
+SIGNAL CLK_IN :  std_logic := '0';
+
 begin
 
-clk <= not(clk) after 5 ns;
+main: process begin
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    INPUT <= "00001000";
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    ADR_SRC <= x"c100";
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    ADR_SRC <= x"00c2";
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    ADR_SRC <= x"00c1";
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    CLK_IN <= not CLK_IN;
+    wait for 20ms;
+    wait;
+end process;
+
+    U1: aW_aR_REGISTER_8bit PORT MAP(INPUT, OUTPUT, ADR_SRC ,CLK_IN);
 
 end Behavioral;
